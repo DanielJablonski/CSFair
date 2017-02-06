@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/toolbar1">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/google_maps_pin"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Employee Tracker"
+                android:layout_marginEnd="20dp"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:textAlignment="viewEnd"/>
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000"></View>
+
+    <RelativeLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.daniel.employeetracker.MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Employer"
+                android:textStyle="bold"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/employerBtn"
+                android:background="@drawable/buttonshape"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="20dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Employee"
+                android:textStyle="bold"
+                android:id="@+id/employeeBtn"
+                android:textSize="20sp"
+                android:background="@drawable/buttonshape"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you an employee or an employee?"
+            android:textSize="30sp"
+            android:id="@+id/textView"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:layout_marginTop="142dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+</LinearLayout>
