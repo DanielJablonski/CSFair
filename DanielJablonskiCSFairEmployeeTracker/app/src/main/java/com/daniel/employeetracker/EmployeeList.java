@@ -43,7 +43,7 @@ public class EmployeeList extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(int i =0; i < dataSnapshot.getChildrenCount(); i++)
                 {
-                    items.add(dataSnapshot.child("employee" + Integer.toString(i+1)).getValue().toString());
+//                    items.add(dataSnapshot.child("employee" + Integer.toString(i+1)).getValue().toString());
                 }
                 Log.d("DONKEY", dataSnapshot.child("employee1").getValue().toString());
 
@@ -59,7 +59,15 @@ public class EmployeeList extends AppCompatActivity {
         addEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employer").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                Map<String, Object> map = new HashMap<String, Object>();
+//                map.put("/" + + "/", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+//                ref.updateChildren(map, new DatabaseReference.CompletionListener() {
+//                    @Override
+//                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+//
+//                    }
+//                });
             }
         });
 

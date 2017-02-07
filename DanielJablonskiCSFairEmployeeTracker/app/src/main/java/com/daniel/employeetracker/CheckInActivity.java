@@ -85,13 +85,14 @@ public class CheckInActivity extends AppCompatActivity{
                     return;
                 }
                 while(latitude == 0 || longitude == 0)
-                {}
+                {
+                    System.out.println("1");
+                }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+                System.out.println("successful");
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee");
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("/" + FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/", toMap());
-                ref.updateChildren(map, new DatabaseReference.CompletionListener() {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                ref.updateChildren(toMap(), new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 

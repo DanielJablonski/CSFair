@@ -185,7 +185,7 @@ public class EmployerLoginActivity extends AppCompatActivity implements GoogleAp
                     alertWithMessage("Signed In As " + task.getResult().getUser().getDisplayName());
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employer");
                     Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("/" + FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/", "");
+                    map.put("/" + FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/", toMap());
                     ref.updateChildren(map, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -256,5 +256,13 @@ public class EmployerLoginActivity extends AppCompatActivity implements GoogleAp
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         System.out.println("onConnectionFailed: " + connectionResult);
+    }
+
+    public Map<String, Object> toMap()
+    {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        result.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        return result;
     }
 }
