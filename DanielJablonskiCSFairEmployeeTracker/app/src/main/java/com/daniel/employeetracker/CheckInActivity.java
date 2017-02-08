@@ -40,6 +40,7 @@ public class CheckInActivity extends AppCompatActivity{
     Button checkInBtn, showLocationBtn;
     public double latitude, longitude;
     LocationManager locationManager;
+    String latString, longString;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -59,7 +60,7 @@ public class CheckInActivity extends AppCompatActivity{
         checkInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                System.out.println("Button clicked");
 
 // Define a listener that responds to location updates
                 LocationListener locationListener = new LocationListener() {
@@ -84,11 +85,9 @@ public class CheckInActivity extends AppCompatActivity{
                     ActivityCompat.requestPermissions(CheckInActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                     return;
                 }
-                while(latitude == 0 || longitude == 0)
-                {
-                    System.out.println("1");
-                }
+
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+
                 System.out.println("successful");
 
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -109,8 +108,12 @@ public class CheckInActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CheckInActivity.this, MapsActivity.class);
-                intent.putExtra("latitude", latitude);
-                intent.putExtra("longitude", longitude);
+
+                System.out.println(latitude);
+                latString = Double.toString(latitude);
+                longString = Double.toString(longitude);
+                intent.putExtra("latitude", latString);
+                intent.putExtra("longitude", longString);
                 startActivity(intent);
             }
         });
@@ -121,7 +124,7 @@ public class CheckInActivity extends AppCompatActivity{
     {
         HashMap<String, Object> result = new HashMap<>();
         result.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        result.put("latitude", latitude);
+        result.put("latitude",latitude );
         result.put("longitude", longitude);
         return result;
     }
