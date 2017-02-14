@@ -180,10 +180,11 @@ public class EmployeeLoginActivity extends AppCompatActivity implements GoogleAp
                     alertWithMessage(providerString + " Sign-In Failed");
 
                 } else {
+                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",",");
                     alertWithMessage("Signed In As " + task.getResult().getUser().getDisplayName());
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee");
                     Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("/" + FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/", toMap());
+                    map.put("/" + email+ "/", toMap());
                     ref.updateChildren(map, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {

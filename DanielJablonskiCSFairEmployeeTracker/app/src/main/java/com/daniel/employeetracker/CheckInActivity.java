@@ -69,6 +69,15 @@ public class CheckInActivity extends AppCompatActivity{
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                         Log.d("LOCATIONCHANGE", "The location changed successfully");
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",","));
+                        ref.updateChildren(toMap(), new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            }
+                        });
+
+                        Toast.makeText(CheckInActivity.this,"Your location has been sent",Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -87,20 +96,6 @@ public class CheckInActivity extends AppCompatActivity{
                 }
 
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-
-                System.out.println("successful");
-
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                ref.updateChildren(toMap(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                    }
-                });
-
-                Toast.makeText(CheckInActivity.this,"Your location has been sent",Toast.LENGTH_LONG).show();
-
-
             }
         });
 
@@ -124,7 +119,7 @@ public class CheckInActivity extends AppCompatActivity{
     {
         HashMap<String, Object> result = new HashMap<>();
         result.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        result.put("latitude",latitude );
+        result.put("latitude", latitude);
         result.put("longitude", longitude);
         return result;
     }
