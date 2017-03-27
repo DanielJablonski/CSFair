@@ -33,9 +33,11 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,6 +51,7 @@ public class EmployerLoginActivity extends AppCompatActivity implements GoogleAp
     private CallbackManager mCallbackManager;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient googleApiClient;
+    private DatabaseReference ref;
     private Button googleBtn, facebookBtn;
 
 
@@ -57,7 +60,6 @@ public class EmployerLoginActivity extends AppCompatActivity implements GoogleAp
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(EmployerLoginActivity.this);
         setContentView(R.layout.activity_employer_login);
-
         googleBtn = (Button) findViewById(R.id.employerGoogleBtn);
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,17 +184,31 @@ public class EmployerLoginActivity extends AppCompatActivity implements GoogleAp
                 if (!task.isSuccessful()) {
                     alertWithMessage(providerString + " Sign-In Failed");
                 } else {
-                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",",");
+                    final String email = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",",");
                     alertWithMessage("Signed In As " + task.getResult().getUser().getDisplayName());
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employer");
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("/" + email+ "/", toMap());
-                    ref.updateChildren(map, new DatabaseReference.CompletionListener() {
+                    ref = FirebaseDatabase.getInstance().getReference().child("employer");
+                    System.out.println(ref.child(email).toString());
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if(dataSnapshot == null) {
+                                Map<String, Object> map = new HashMap<String, Object>();
+                                map.put("/" + email + "/", toMap());
+                                ref.updateChildren(map, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
                         }
                     });
+
                     Intent intent = new Intent(EmployerLoginActivity.this, EmployeeList.class);
                     startActivity(intent);
                     finish();

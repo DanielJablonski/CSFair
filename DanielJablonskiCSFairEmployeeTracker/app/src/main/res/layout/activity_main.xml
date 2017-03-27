@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you an employee or an employee?"
+            android:text="Are you an employer or an employee?"
             android:textSize="30sp"
             android:id="@+id/textView"
             android:textStyle="bold"

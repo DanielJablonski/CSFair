@@ -24,10 +24,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +43,8 @@ public class CheckInActivity extends AppCompatActivity{
     public double latitude, longitude;
     LocationManager locationManager;
     String latString, longString;
+    Button logout;
+    LocationListener locationListener;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -52,18 +56,34 @@ public class CheckInActivity extends AppCompatActivity{
         greeting = (TextView) findViewById(R.id.helloEmployeeText);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         showLocationBtn = (Button) findViewById(R.id.showLocationBtn);
+        logout = (Button) findViewById(R.id.logOutBtn2);
 
+        //Logs user out
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(CheckInActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                locationManager.removeUpdates(locationListener);
+            }
+        });
+
+        //Shows user's name on layout
         if(user != null)
         {
             greeting.setText("Hi " + user.getDisplayName() + ",");
         }
+
+        //Waits for user to check in and runs the following code
         checkInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Button clicked");
 
-// Define a listener that responds to location updates
-                LocationListener locationListener = new LocationListener() {
+                // Define a listener that responds to location updates
+                locationListener = new LocationListener() {
                     public void onLocationChanged(Location location) {
                         // Called when a new location is found by the network location provider.
                         latitude = location.getLatitude();
@@ -90,31 +110,29 @@ public class CheckInActivity extends AppCompatActivity{
                     public void onProviderDisabled(String provider) {
                     }
                 };
+
+                //Check for location permissions
                 if (ActivityCompat.checkSelfPermission(CheckInActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CheckInActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(CheckInActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                     return;
                 }
 
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+                //Request location updates every 10 seconds
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, locationListener);
             }
         });
 
+        //Launches maps activity that shows location
         showLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CheckInActivity.this, MapsActivity.class);
-
-                System.out.println(latitude);
-                latString = Double.toString(latitude);
-                longString = Double.toString(longitude);
-                intent.putExtra("latitude", latString);
-                intent.putExtra("longitude", longString);
-                startActivity(intent);
+                checkLocation();
             }
         });
 
     }
 
+    //Updates location to firebase
     public Map<String, Object> toMap()
     {
         HashMap<String, Object> result = new HashMap<>();
@@ -122,6 +140,28 @@ public class CheckInActivity extends AppCompatActivity{
         result.put("latitude", latitude);
         result.put("longitude", longitude);
         return result;
+    }
+
+    //Collects location of user and launches MapsActivity
+    public void checkLocation()
+    {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("employee").child(user.getEmail().replace(".", ","));
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Intent intent = new Intent(CheckInActivity.this, MapsActivity.class);
+                intent.putExtra("latitude", dataSnapshot.child("latitude").getValue().toString());
+                intent.putExtra("longitude", dataSnapshot.child("longitude").getValue().toString());
+                intent.putExtra("marker", "You");
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

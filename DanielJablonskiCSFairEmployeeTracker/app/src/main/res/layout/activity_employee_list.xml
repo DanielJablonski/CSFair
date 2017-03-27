@@ -53,20 +53,23 @@
             android:layout_height="wrap_content"
             android:text=""
             android:id="@+id/displayName"
-            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:textSize="14sp"
             android:textColor="#000000" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Employees"
+            android:layout_marginStart="10dp"
             tools:textStyle="bold"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textSize="25sp"
             android:textColor="#000000" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:inputType="textPersonName"
             android:hint="Enter an employee's name"
             android:layout_marginTop="20dp"
@@ -75,22 +78,35 @@
 
         <Button
             android:text="+ Add employee"
-            android:layout_width="162dp"
-            android:layout_height="41dp"
             android:id="@+id/addEmployeeBtn"
             android:background="@drawable/buttonshape"
             android:layout_marginTop="20dp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:layout_gravity="right"
+            android:layout_height="40dp"
+            android:layout_width="180dp" />
 
         <Spinner
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:spinnerMode="dropdown"
             android:id="@+id/spinner">
 
 
         </Spinner>
+
+        <Button
+            android:text="Check Location"
+            android:id="@+id/checkGps"
+            android:background="@drawable/buttonshape"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:textColor="#ffffff"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="180dp" />
 
     </LinearLayout>
 

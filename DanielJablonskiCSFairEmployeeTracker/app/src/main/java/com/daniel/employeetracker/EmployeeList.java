@@ -1,5 +1,7 @@
 package com.daniel.employeetracker;
 
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,42 +29,83 @@ public class EmployeeList extends AppCompatActivity {
 
     ArrayList<String> items;
     FirebaseAuth firebaseAuth;
-    FirebaseDatabase fireRef = FirebaseDatabase.getInstance();
-    DatabaseReference ref = fireRef.getReference();
-    Button addEmployee;
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    Button addEmployee, logout, checkLocationBtn;
     String user = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",",");
     EditText emailOfEmployee;
     DatabaseReference mRef;
     String previousEmployee, employeeEmail;
     DataSnapshot employeeNumber;
     TextView displayName;
+    Spinner dropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_list);
+
         items = new ArrayList<>();
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner);
+        dropdown = (Spinner)findViewById(R.id.spinner);
         items.add("Employees");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(EmployeeList.this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
+
         emailOfEmployee = (EditText) findViewById(R.id.employeeEmail);
         previousEmployee = "";
         displayName = (TextView) findViewById(R.id.displayName);
+        logout = (Button) findViewById(R.id.logOutBtn);
+        checkLocationBtn = (Button) findViewById(R.id.checkGps);
+        mRef = FirebaseDatabase.getInstance().getReference().child("employer").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",","));
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent logoutIntent = new Intent(EmployeeList.this, MainActivity.class);
+                startActivity(logoutIntent);
+                finish();
+                Toast.makeText(EmployeeList.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        checkLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRef.child("employees").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
+
+                        Intent intent = new Intent(EmployeeList.this, MapsActivity.class);
+                        intent.putExtra("latitude", dataSnapshot.child(dropdown.getSelectedItem().toString()).child("latitude").getValue().toString());
+                        intent.putExtra("longitude", dataSnapshot.child(dropdown.getSelectedItem().toString()).child("longitude").getValue().toString());
+                        intent.putExtra("marker", dataSnapshot.child(dropdown.getSelectedItem().toString()).child("name").getValue().toString());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
         displayName.setText("Hi " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + ",");
-        ref.child("employee").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        mRef.child("employees").orderByChild("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(int i =0; i < dataSnapshot.getChildrenCount(); i++)
+                for (DataSnapshot snapshot: dataSnapshot.getChildren())
                 {
-//                    items.add(dataSnapshot.child(dataSnapshot.getChildren().toString().replace(",",".")));
+                    items.add(snapshot.child("name").getValue().toString());
                 }
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("DONKEY", "FAILED");
+
             }
         });
 
@@ -71,7 +114,6 @@ public class EmployeeList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 employeeEmail = emailOfEmployee.getText().toString();
-                mRef = FirebaseDatabase.getInstance().getReference().child("employer").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",","));
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,7 +124,7 @@ public class EmployeeList extends AppCompatActivity {
 
                                 DataSnapshot employee =dataSnapshot.child("employee").child(emailOfEmployee.getText().toString().replace(".", ","));
                                 Map<String, Object> map = new HashMap<String, Object>();
-                                map.put("/employees/" + employee.child("name").getValue().toString() + "/", toMap(employee.child("latitude"), employee.child("longitude")));
+                                map.put("/employees/" + employee.child("name").getValue().toString() + "/", toMap(employee.child("name"), employee.child("latitude"), employee.child("longitude")));
                                 mRef.updateChildren(map, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -118,14 +160,16 @@ public class EmployeeList extends AppCompatActivity {
                     }
                 });
 
+
             }
         });
 
     }
 
-    public Map<String, Object> toMap(DataSnapshot latitude, DataSnapshot longitude)
+    public Map<String, Object> toMap(DataSnapshot name, DataSnapshot latitude, DataSnapshot longitude)
     {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name.getValue().toString());
         result.put("latitude", latitude.getValue().toString());
         result.put("longitude", longitude.getValue().toString());
         return result;
