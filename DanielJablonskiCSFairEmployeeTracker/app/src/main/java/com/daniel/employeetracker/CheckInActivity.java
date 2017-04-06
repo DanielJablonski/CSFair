@@ -1,62 +1,66 @@
 package com.daniel.employeetracker;
 
-import android.*;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 public class CheckInActivity extends AppCompatActivity{
 
-    TextView greeting;
+    TextView greeting, checkInText, checkOutText, showLocationText;
     FirebaseUser user;
-    Button checkInBtn, showLocationBtn;
+    CardView checkIn, showLocation;
     public double latitude, longitude;
     LocationManager locationManager;
     String latString, longString;
     Button logout;
     LocationListener locationListener;
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
-        checkInBtn = (Button) findViewById(R.id.checkInBtn);
+        checkIn = (CardView) findViewById(R.id.checkIn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         greeting = (TextView) findViewById(R.id.helloEmployeeText);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        showLocationBtn = (Button) findViewById(R.id.showLocationBtn);
+        showLocation = (CardView) findViewById(R.id.showLocation);
         logout = (Button) findViewById(R.id.logOutBtn2);
+
+        AssetManager am = CheckInActivity.this.getApplicationContext().getAssets();
+        Typeface typeface = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "timeburnerbold.ttf"));
+        TextView checkInText = (TextView) findViewById(R.id.checkInText);
+        TextView checkOutText = (TextView) findViewById(R.id.checkOutText);
+        TextView showLocationText = (TextView) findViewById(R.id.showLocationText);
+
+        checkInText.setTypeface(typeface);
 
         //Logs user out
         logout.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +81,7 @@ public class CheckInActivity extends AppCompatActivity{
         }
 
         //Waits for user to check in and runs the following code
-        checkInBtn.setOnClickListener(new View.OnClickListener() {
+        checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Button clicked");
@@ -123,7 +127,7 @@ public class CheckInActivity extends AppCompatActivity{
         });
 
         //Launches maps activity that shows location
-        showLocationBtn.setOnClickListener(new View.OnClickListener() {
+        showLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkLocation();
