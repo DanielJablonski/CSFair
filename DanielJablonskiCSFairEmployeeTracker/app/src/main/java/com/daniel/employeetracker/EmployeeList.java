@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,7 +31,7 @@ public class EmployeeList extends AppCompatActivity {
     ArrayList<String> items;
     FirebaseAuth firebaseAuth;
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-    Button addEmployee, logout, checkLocationBtn;
+    Button addEmployee, checkLocationBtn;
     String user = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",",");
     EditText emailOfEmployee;
     DatabaseReference mRef;
@@ -38,6 +39,7 @@ public class EmployeeList extends AppCompatActivity {
     DataSnapshot employeeNumber;
     TextView displayName;
     Spinner dropdown;
+    CardView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class EmployeeList extends AppCompatActivity {
         emailOfEmployee = (EditText) findViewById(R.id.employeeEmail);
         previousEmployee = "";
         displayName = (TextView) findViewById(R.id.displayName);
-        logout = (Button) findViewById(R.id.logOutBtn);
+        logout = (CardView) findViewById(R.id.logoutCardview1);
         checkLocationBtn = (Button) findViewById(R.id.checkGps);
         mRef = FirebaseDatabase.getInstance().getReference().child("employer").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",","));
 

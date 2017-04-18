@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    >
+    android:background="#434343">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="Employee Tracker"
                 android:layout_marginEnd="20dp"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="25sp"
                 android:textAlignment="viewEnd"/>
 
@@ -35,12 +35,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000000"></View>
+        android:background="#ffffff"></View>
 
     <LinearLayout
         android:id="@+id/activity_employee_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -55,67 +55,120 @@
             android:id="@+id/displayName"
             android:layout_marginBottom="10dp"
             android:textSize="14sp"
-            android:textColor="#000000" />
-        <TextView
+            android:textColor="#ffffff" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/showLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Employees"
-            android:layout_marginStart="10dp"
-            tools:textStyle="bold"
-            android:textAlignment="textStart"
-            android:textSize="25sp"
-            android:textColor="#000000" />
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@android:color/holo_blue_bright"
+            app:cardCornerRadius="3dp">
 
-        <EditText
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Employees"
+                android:layout_marginTop="10dp"
+                android:textAlignment="textStart"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                tools:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/employeeEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="45dp"
+                android:ems="10"
+                android:hint="Enter an employee's name"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/addEmployeeBtn"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="90dp"
+                android:background="@drawable/buttonshape"
+                android:text="+ Add employee"
+                android:textColor="#000000" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:inputType="textPersonName"
-            android:hint="Enter an employee's name"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
-            android:ems="10"
-            android:id="@+id/employeeEmail" />
+            android:layout_weight="1"
+            app:cardBackgroundColor="@android:color/holo_orange_light"
+            app:cardCornerRadius="3dp">
 
-        <Button
-            android:text="+ Add employee"
-            android:id="@+id/addEmployeeBtn"
-            android:background="@drawable/buttonshape"
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="#434343"
+                android:spinnerMode="dropdown">
+
+
+            </Spinner>
+
+            <Button
+                android:id="@+id/checkGps"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/buttonshape"
+                android:text="Check Location"
+                android:textColor="#000000" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/logoutCardview1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
-            android:textColor="#ffffff"
-            android:layout_gravity="right"
-            android:layout_height="40dp"
-            android:layout_width="180dp" />
+            android:layout_weight="1"
+            app:cardBackgroundColor="@android:color/holo_red_dark"
+            app:cardCornerRadius="3dp">
 
-        <Spinner
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:spinnerMode="dropdown"
-            android:id="@+id/spinner">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/log_out" />
 
-
-        </Spinner>
-
-        <Button
-            android:text="Check Location"
-            android:id="@+id/checkGps"
-            android:background="@drawable/buttonshape"
-            android:layout_height="40dp"
-            android:layout_gravity="right"
-            android:textColor="#ffffff"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_width="180dp" />
+            <TextView
+                android:id="@+id/logoutText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="20dp"
+                android:text="Log Out"
+                android:textColor="#000000"
+                android:textSize="25sp" />
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:background="@drawable/buttonshape"
-        android:text="Log out"
-        android:id="@+id/logOutBtn"
-        android:layout_gravity="center|bottom"
-        android:textColor="#ffffff"/>
 </LinearLayout>
