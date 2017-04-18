@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    >
+    android:background="#434343">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +25,9 @@
                 android:layout_height="wrap_content"
                 android:text="Employee Tracker"
                 android:layout_marginEnd="20dp"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="25sp"
+                android:id="@+id/title1"
                 android:textAlignment="viewEnd"/>
 
         </android.support.v7.widget.Toolbar>
@@ -38,7 +39,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000000"></View>
+        android:background="#ffffff"></View>
 
     <RelativeLayout
         android:id="@+id/activity_main"
@@ -54,43 +55,76 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Employer"
-                android:textStyle="bold"
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/employerCardview"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
                 android:layout_marginEnd="20dp"
-                android:id="@+id/employerBtn"
-                android:background="@drawable/buttonshape"
+                app:cardBackgroundColor="@android:color/holo_blue_dark"
+                app:cardCornerRadius="1dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_person_white_24dp" />
+
+                <TextView
+                    android:id="@+id/employerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:text="Employer"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/employeeCardview"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:layout_marginTop="20dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Employee"
-                android:textStyle="bold"
-                android:id="@+id/employeeBtn"
-                android:textSize="20sp"
-                android:background="@drawable/buttonshape"
-                android:layout_weight="1"
-                android:textColor="#ffffff"
-                android:layout_marginTop="20dp"/>
+                app:cardBackgroundColor="@android:color/holo_blue_dark"
+                app:cardCornerRadius="1dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_person_white_24dp" />
+
+                <TextView
+                    android:id="@+id/employeeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:text="Employee"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+            </android.support.v7.widget.CardView>
+
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you an employer or an employee?"
-            android:textSize="30sp"
-            android:id="@+id/textView"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:layout_marginTop="142dp"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginTop="142dp"
+            android:text="Are you an employer or an employee?"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 </LinearLayout>

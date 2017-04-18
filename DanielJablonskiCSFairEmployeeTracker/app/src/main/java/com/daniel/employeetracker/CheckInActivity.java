@@ -34,13 +34,13 @@ import java.util.Map;
 
 public class CheckInActivity extends AppCompatActivity{
 
-    TextView greeting, checkInText, checkOutText, showLocationText;
+    TextView greeting;
     FirebaseUser user;
     CardView checkIn, showLocation;
     public double latitude, longitude;
     LocationManager locationManager;
     String latString, longString;
-    Button logout;
+    CardView logout;
     LocationListener locationListener;
 
     @Override
@@ -52,15 +52,22 @@ public class CheckInActivity extends AppCompatActivity{
         greeting = (TextView) findViewById(R.id.helloEmployeeText);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         showLocation = (CardView) findViewById(R.id.showLocation);
-        logout = (Button) findViewById(R.id.logOutBtn2);
+        logout = (CardView) findViewById(R.id.logoutCardview);
 
         AssetManager am = CheckInActivity.this.getApplicationContext().getAssets();
         Typeface typeface = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "timeburnerbold.ttf"));
         TextView checkInText = (TextView) findViewById(R.id.checkInText);
         TextView checkOutText = (TextView) findViewById(R.id.checkOutText);
         TextView showLocationText = (TextView) findViewById(R.id.showLocationText);
+        TextView logoutText = (TextView) findViewById(R.id.logoutText);
+        TextView title = (TextView) findViewById(R.id.title);
 
         checkInText.setTypeface(typeface);
+        checkOutText.setTypeface(typeface);
+        showLocationText.setTypeface(typeface);
+        logoutText.setTypeface(typeface);
+        title.setTypeface(typeface);
+        greeting.setTypeface(typeface);
 
         //Logs user out
         logout.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +77,7 @@ public class CheckInActivity extends AppCompatActivity{
                 Intent intent = new Intent(CheckInActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+                if(locationListener != null)
                 locationManager.removeUpdates(locationListener);
             }
         });

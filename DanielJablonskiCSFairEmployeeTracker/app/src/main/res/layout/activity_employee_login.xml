@@ -5,41 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#434343"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/toolbar3">
-
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/google_maps_pin"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Employee Tracker"
-                android:layout_marginEnd="20dp"
-                android:textColor="#000000"
-                android:textSize="25sp"
-                android:textAlignment="viewEnd"/>
-
-        </android.support.v7.widget.Toolbar>
-
-
-
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000000"></View>
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="170dp"
+       android:layout_marginTop="30dp"
+       android:src="@drawable/google_maps_pin"/>
 <LinearLayout
     android:id="@+id/activity_employee_login"
     android:layout_width="match_parent"
@@ -53,12 +26,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="Employee SignUp/Login"
+        android:layout_marginTop="20dp"
+        android:text="Employee Tracker"
         android:textSize="25sp"
+        android:textAlignment="center"
         android:textStyle="bold"
+        android:id="@+id/titleName"
         android:layout_marginBottom="40dp"
-        android:textColor="#000000"/>
+        android:textColor="#ffffff"/>
 
     <Button
         android:layout_width="wrap_content"

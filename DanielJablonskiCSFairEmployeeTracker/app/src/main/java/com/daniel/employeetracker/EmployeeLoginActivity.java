@@ -2,12 +2,15 @@ package com.daniel.employeetracker;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -37,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class EmployeeLoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -47,15 +51,25 @@ public class EmployeeLoginActivity extends AppCompatActivity implements GoogleAp
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient googleApiClient;
     private Button googleBtn, facebookBtn;
+    TextView title, facebookText, googleText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(EmployeeLoginActivity.this);
         setContentView(R.layout.activity_employee_login);
 
+        AssetManager am = EmployeeLoginActivity.this.getApplicationContext().getAssets();
+        Typeface typeface = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "timeburnerbold.ttf"));
 
-
+        title = (TextView) findViewById(R.id.titleName);
         googleBtn = (Button) findViewById(R.id.employeeGoogleBtn);
+        facebookBtn = (Button) findViewById(R.id.employeeFacebookBtn);
+
+        title.setTypeface(typeface);
+        googleBtn.setTypeface(typeface);
+        facebookBtn.setTypeface(typeface);
+
+
             googleBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -63,7 +77,7 @@ public class EmployeeLoginActivity extends AppCompatActivity implements GoogleAp
                 }
             });
 
-            facebookBtn = (Button) findViewById(R.id.employeeFacebookBtn);
+
             facebookBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

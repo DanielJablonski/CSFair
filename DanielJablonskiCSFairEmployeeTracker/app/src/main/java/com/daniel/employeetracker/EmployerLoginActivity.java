@@ -2,12 +2,15 @@ package com.daniel.employeetracker;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -41,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class EmployerLoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -60,15 +64,24 @@ public class EmployerLoginActivity extends AppCompatActivity implements GoogleAp
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(EmployerLoginActivity.this);
         setContentView(R.layout.activity_employer_login);
+
+        AssetManager am = EmployerLoginActivity.this.getApplicationContext().getAssets();
+        Typeface typeface = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "timeburnerbold.ttf"));
+
         googleBtn = (Button) findViewById(R.id.employerGoogleBtn);
+        facebookBtn = (Button) findViewById(R.id.employerFacebookBtn);
+        TextView managerTitle = (TextView) findViewById(R.id.managerTitle);
+
+        googleBtn.setTypeface(typeface);
+        facebookBtn.setTypeface(typeface);
+        managerTitle.setTypeface(typeface);
+
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signInWithGoogle();
             }
         });
-
-        facebookBtn = (Button) findViewById(R.id.employerFacebookBtn);
         facebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
