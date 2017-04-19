@@ -1,6 +1,8 @@
 package com.daniel.employeetracker;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class EmployeeList extends AppCompatActivity {
@@ -37,7 +40,7 @@ public class EmployeeList extends AppCompatActivity {
     DatabaseReference mRef;
     String previousEmployee, employeeEmail;
     DataSnapshot employeeNumber;
-    TextView displayName;
+    TextView displayName, logoutText, title, addEmployeeText, employeeText;
     Spinner dropdown;
     CardView logout;
 
@@ -52,12 +55,30 @@ public class EmployeeList extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(EmployeeList.this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
+        AssetManager am = EmployeeList.this.getApplicationContext().getAssets();
+        Typeface typeface = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "timeburnerbold.ttf"));
+
         emailOfEmployee = (EditText) findViewById(R.id.employeeEmail);
         previousEmployee = "";
         displayName = (TextView) findViewById(R.id.displayName);
         logout = (CardView) findViewById(R.id.logoutCardview1);
         checkLocationBtn = (Button) findViewById(R.id.checkGps);
+        addEmployee = (Button) findViewById(R.id.addEmployeeBtn);
+        logoutText = (TextView) findViewById(R.id.logoutText2);
+        title = (TextView) findViewById(R.id.title2);
+        addEmployeeText = (TextView) findViewById(R.id.addEmployees);
+        employeeText = (TextView) findViewById(R.id.employeeText2);
         mRef = FirebaseDatabase.getInstance().getReference().child("employer").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",","));
+
+        displayName.setTypeface(typeface);
+        checkLocationBtn.setTypeface(typeface);
+        addEmployee.setTypeface(typeface);
+        logoutText.setTypeface(typeface);
+        title.setTypeface(typeface);
+        emailOfEmployee.setTypeface(typeface);
+        addEmployeeText.setTypeface(typeface);
+        employeeText.setTypeface(typeface);
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +132,7 @@ public class EmployeeList extends AppCompatActivity {
             }
         });
 
-        addEmployee = (Button) findViewById(R.id.addEmployeeBtn);
+
         addEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
